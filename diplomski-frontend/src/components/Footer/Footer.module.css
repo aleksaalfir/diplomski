@@ -1,0 +1,7 @@
+.footer {
+    width: 100%;
+    position: static;
+    bottom: 0;
+    text-align: center;
+    /*margin-top: 20rem;*/
+}

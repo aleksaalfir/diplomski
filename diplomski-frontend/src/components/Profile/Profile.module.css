@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap');
+
+.channelName{
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+}
+
+.subscribeInfo{
+    color: gray;
+    font-size: 1.25rem;
+}
+
+.link{
+    text-decoration: none;
+}

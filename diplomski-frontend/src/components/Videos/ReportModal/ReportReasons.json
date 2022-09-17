@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "reason": "Sexual content"
+  },
+  {
+    "id": 2,
+    "reason": "Violent or repulsive content"
+  },
+  {
+    "id": 3,
+    "reason": "Hateful or abusive content"
+  },
+  {
+    "id": 4,
+    "reason": "Harmful dangerous act"
+  },
+  {
+    "id": 5,
+    "reason": "Child abuse"
+  },
+  {
+    "id": 6,
+    "reason": "Promotes terrorism"
+  },
+  {
+    "id": 7,
+    "reason": "Spam or misleading"
+  },
+  {
+    "id": 8,
+    "reason": "Infringes my rights"
+  },
+  {
+    "id": 9,
+    "reason": "Caption issue"
+  }
+]

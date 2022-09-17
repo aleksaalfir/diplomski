@@ -1,24 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import routeService from "./services/api/route-service";
 
 function App() {
+
+    const allowedRoutes = routeService.getAllowedRoutes();
+    const redirect = routeService.getRedirect();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+            {allowedRoutes.map((route, index)=>{
+                return <Route key={index} path={route.path} element={route.element} exact/>
+            })}
+            {redirect}
+        </Routes>
+    </BrowserRouter>
   );
 }
 

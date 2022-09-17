@@ -1,0 +1,8 @@
+.delete{
+    display: inline;
+}
+
+.delete:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

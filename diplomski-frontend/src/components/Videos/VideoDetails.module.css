@@ -1,0 +1,20 @@
+.showMore:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    color: #004dcf;
+}
+
+.iconLiked{
+    color: #004dcf;
+    cursor: pointer;
+}
+
+.iconLiked:hover{
+    color: #004dcf;
+    cursor: pointer;
+}
+
+.icon:hover{
+    cursor: pointer;
+    color: #004dcf;
+}

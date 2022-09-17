@@ -1,0 +1,21 @@
+.brand {
+    color: #ffffff;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.link {
+    color: #fff;
+    margin: 0 1rem;
+    text-decoration: none;
+}
+
+.link:hover,
+.brand:hover {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.toggle {
+    border: none !important;
+}
