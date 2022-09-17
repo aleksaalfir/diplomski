@@ -52,7 +52,7 @@ public class VideoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map> getOne(@PathVariable("id") Long id){
+    public ResponseEntity<Map> getOne(@PathVariable("id") UUID id){
 
         VideoDTO videoDTO = videoService.findOne(id);
         List<VideoDTO>  videos = videoService.findAllNonPrivateVideos().stream().limit(10).collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class VideoController {
 
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Boolean> delete(@PathVariable("id") UUID id){
         boolean deleted = videoService.delete(id);
         if(deleted) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -90,21 +90,21 @@ public class VideoController {
 
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{id}")
-    public ResponseEntity<VideoDTO> update(@PathVariable("id") Long id, @RequestBody VideoDTO videoDTO){
+    public ResponseEntity<VideoDTO> update(@PathVariable("id") UUID id, @RequestBody VideoDTO videoDTO){
         videoService.update(id, videoDTO);
         return new ResponseEntity<>(videoDTO, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<Long> create(@RequestBody RequestVideoDTO requestVideoDTO){
-        Long id = videoService.create(requestVideoDTO);
+    public ResponseEntity<UUID> create(@RequestBody RequestVideoDTO requestVideoDTO){
+        UUID id = videoService.create(requestVideoDTO);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/like/{id}")
-    public ResponseEntity<Boolean> likeVideo(@PathVariable("id") Long id){
+    public ResponseEntity<Boolean> likeVideo(@PathVariable("id") UUID id){
         boolean liked = videoService.liked(id);
         return new ResponseEntity<>(liked, HttpStatus.OK);
     }

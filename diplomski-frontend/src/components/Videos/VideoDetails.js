@@ -180,7 +180,13 @@ const VideoDetails = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 videoService.deleteVideo(id).then(data =>{
-                    Swal.fire('Deleted!', '', 'success')
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Video is deleted!',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
                     navigate("/home");
                 }).catch(err => console.log(err));
             }
@@ -190,8 +196,14 @@ const VideoDetails = () => {
     const updateVideoHandler = () => {
         videoService.update(id, video)
             .then(data=>{
-                Swal.fire('Updated!', '', 'success')
-                navigate("/home");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Video updated!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(()=>window.location.reload());
+
             })
     }
 

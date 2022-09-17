@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class WatchHistoryServiceImpl implements WatchHistoryService {
 
@@ -47,7 +49,7 @@ public class WatchHistoryServiceImpl implements WatchHistoryService {
     }
 
     @Override
-    public boolean addToWatcHistory(Long id) {
+    public boolean addToWatcHistory(UUID id) {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findUserByUsername(username);
         Video video = videoRepository.findById(id).orElse(null);

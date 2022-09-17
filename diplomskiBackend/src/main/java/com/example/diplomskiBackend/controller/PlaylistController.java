@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -66,7 +67,7 @@ public class PlaylistController {
 
     @PreAuthorize("hasRole('USER')")
     @PutMapping(value = "/{playlistId}/add-video/{videoId}")
-    public ResponseEntity<Boolean> addVideoToPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("videoId") Long videoId){
+    public ResponseEntity<Boolean> addVideoToPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("videoId") UUID videoId){
         boolean added = playlistService.addVideoToPlaylist(playlistId, videoId);
         if(added){
             return new ResponseEntity<>(HttpStatus.OK);

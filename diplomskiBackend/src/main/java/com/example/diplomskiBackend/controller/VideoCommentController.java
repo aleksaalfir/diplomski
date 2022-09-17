@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/api/video-comment")
@@ -18,8 +20,8 @@ public class VideoCommentController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping
-    public ResponseEntity<Long> saveComment(@RequestBody CommentRequestDTO commentRequestDTO){
-        Long id = videoCommentService.save(commentRequestDTO);
+    public ResponseEntity<UUID> saveComment(@RequestBody CommentRequestDTO commentRequestDTO){
+        UUID id = videoCommentService.save(commentRequestDTO);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

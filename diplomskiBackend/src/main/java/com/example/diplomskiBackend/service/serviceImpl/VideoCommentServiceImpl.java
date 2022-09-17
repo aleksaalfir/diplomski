@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class VideoCommentServiceImpl implements VideoCommentService {
@@ -26,7 +27,7 @@ public class VideoCommentServiceImpl implements VideoCommentService {
     private UserRepository userRepository;
 
     @Override
-    public Long save(CommentRequestDTO commentRequestDTO) {
+    public UUID save(CommentRequestDTO commentRequestDTO) {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findUserByUsername(username);
         Video video = videoRepository.findById(commentRequestDTO.getVideoId()).orElse(null);

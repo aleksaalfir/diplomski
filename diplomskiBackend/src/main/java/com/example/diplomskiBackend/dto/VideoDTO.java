@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 public class VideoDTO {
 
-    private Long id;
+    private UUID id;
 
     private String name;
 

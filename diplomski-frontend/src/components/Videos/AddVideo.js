@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {Button} from "react-bootstrap";
 import {storage} from "../../firebase";
-import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
+import {getDownloadURL, ref, uploadBytes, deleteObject} from 'firebase/storage'
 import authService from "../../services/api/auth-service";
 import {v4} from 'uuid'
 import videoService from "../../services/api/video-service";
 import {useNavigate} from "react-router-dom";
+import {PulseLoader} from "react-spinners";
 import Swal from "sweetalert2";
-import {PropagateLoader, PulseLoader} from "react-spinners";
 
 const AddVideo = () => {
 
-    const [video, setVideo] = useState({name: "", ageRestricted: false, privateVideo: false, description: "", videoPath: ""});
+    const [video, setVideo] = useState({id:"",name: "", ageRestricted: false, privateVideo: false, description: "", videoPath: "",privatePassword: "", fileName: ""});
     const [videoFile, setVideoFile]= useState(null);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -28,20 +28,31 @@ const AddVideo = () => {
 
     const uploadHandler = () => {
         if(videoFile === null) return;
-        //korisnik/uuid - putanja za videoRef
-        //bekend saljem video naziv originalan, uuid je id videa, ...
-        //id zameniti sa uuidom
+        if(video.privateVideo === true && video.privatePassword.trim() === "") return alert("Enter private video password.")
+        const uuid = v4();
         //dislajk
-        //kad je privatan video korisnik ciji nije video bi trebao da ukuca sifru i dobije pristup video zapisu
-        const videoRef = ref(storage, `videos/${authService.getUsernameFromJwt()}/${videoFile.name + v4()}`);
+        const videoRef = ref(storage, `videos/${authService.getUsernameFromJwt()}/${uuid}`);
         setLoading(true);
         uploadBytes(videoRef, videoFile).then((snapshot)=>{
             getDownloadURL(snapshot.ref).then((url)=>{
-                const sendVideo = {...video, videoPath: url}
-                //dodaj catch ako pukne video
+                const sendVideo = {...video, videoPath: url, id: uuid, fileName: videoFile.name }
                 videoService.create(sendVideo).then((id)=>{
                     setLoading(false);
-                    navigate(`/video/${id}`)
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Video uploading is done!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then(()=>{
+                        navigate(`/video/${id}`)
+                    })
+                }).catch(err=>{
+                        deleteObject(videoRef).then(() => {
+                            videoService.deleteVideo(uuid).then(()=>{
+                                return alert("Something went wrong try again later.")
+                            })
+                        })
                 })
             })
         }).catch(err=> alert(`Oops error ${err.message}`))
@@ -62,6 +73,10 @@ const AddVideo = () => {
             <div className="w-100 mb-3">
                 <label htmlFor="privateVideo" style={{fontSize: '1.5rem', marginRight: '8px'}}>Private video:</label>
                 <input type="checkbox" name="privateVideo" id="privateVideo" onChange={privateHandler}/>
+            </div>
+            <div className="w-100 mb-3">
+                <label htmlFor="privatePassword" style={{fontSize: '1.5rem', marginRight: '8px'}}>Private video password:</label>
+                <input type="text" name="privatePassword" id="privatePassword" className="w-50" onChange={event => setVideo({...video, privatePassword: event.target.value})}/>
             </div>
             <div className="w-100 mb-3">
                 <label htmlFor="description" style={{fontSize: '1.5rem', verticalAlign: 'top', marginRight: '8px'}}>Description:</label>

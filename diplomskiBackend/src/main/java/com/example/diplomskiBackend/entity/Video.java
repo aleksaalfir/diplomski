@@ -1,10 +1,12 @@
 package com.example.diplomskiBackend.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -15,8 +17,8 @@ import java.util.List;
 public class Video {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Type(type = "org.hibernate.type.UUIDCharType")
+    private UUID id;
 
     private String name;
 

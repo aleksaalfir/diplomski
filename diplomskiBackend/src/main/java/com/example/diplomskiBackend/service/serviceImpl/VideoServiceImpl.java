@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -48,7 +45,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDTO findOne(Long id) {
+    public VideoDTO findOne(UUID id) {
         return VideoMapper.mapDTO(videoRepository.findById(id).orElse(null));
     }
 
@@ -60,14 +57,14 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void incrementVideoViews(Long id) {
+    public void incrementVideoViews(UUID id) {
         Video video = videoRepository.findById(id).orElse(null);
         video.setViews(video.getViews() + 1);
         videoRepository.save(video);
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(UUID id) {
 
         Video video = videoRepository.findById(id).orElse(null);
         if(video != null){
@@ -80,10 +77,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDTO update(Long id, VideoDTO videoDTO) {
+    public VideoDTO update(UUID id, VideoDTO videoDTO) {
         Video video = videoRepository.findById(id).orElse(null);
         video.setId(id);
         video.setName(videoDTO.getName());
+        video.setPrivatePassword(video.getPrivatePassword());
         video.setDescription(videoDTO.getDescription());
         video.setAgeRestricted(videoDTO.getAgeRestricted());
         video.setPrivateVideo(videoDTO.getPrivateVideo());
@@ -99,12 +97,14 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Long create(RequestVideoDTO requestVideoDTO) {
+    public UUID create(RequestVideoDTO requestVideoDTO) {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findUserByUsername(username);
 
-        Video video = new Video(requestVideoDTO.getName(),
-                user, requestVideoDTO.getPrivateVideo(),
+        Video video = new Video(requestVideoDTO.getId(),
+                requestVideoDTO.getName(),
+                user,
+                requestVideoDTO.getPrivateVideo(),
                 requestVideoDTO.getAgeRestricted(),
                 requestVideoDTO.getDescription(),
                 requestVideoDTO.getVideoPath(),
@@ -114,13 +114,13 @@ public class VideoServiceImpl implements VideoService {
                 requestVideoDTO.getPrivatePassword(),
                 requestVideoDTO.getFileName());
 
-        Long id = videoRepository.save(video).getId();
+        UUID id = videoRepository.save(video).getId();
 
         return id;
     }
 
     @Override
-    public boolean liked(Long id) {
+    public boolean liked(UUID id) {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findUserByUsername(username);
         Video video = videoRepository.findById(id).orElse(null);
@@ -138,7 +138,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public boolean checkLiked(Long id) {
+    public boolean checkLiked(UUID id) {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         User user = userRepository.findUserByUsername(username);
         Video video = videoRepository.findById(id).orElse(null);
@@ -158,7 +158,9 @@ public class VideoServiceImpl implements VideoService {
 
 
     private void removeVideoFromPlaylists(Video video){
-        List<Playlist> playlists = playlistRepository.findPlaylistsByVideo(video.getId());
+        String uuidString = video.getId().toString();
+        List<Playlist> playlists = playlistRepository.findPlaylistsByVideo(uuidString);
+        System.out.println(playlists);
         if(playlists.size() >= 1){
             for (Playlist playlist:
                     playlists) {
@@ -169,7 +171,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     private void removeVideoFromWatchHistory(Video video){
-        List<WatchHistory> watchHistories = watchHistoryRepository.findWatchHistoriesByVideo(video.getId());
+        String uuidString = video.getId().toString();
+        List<WatchHistory> watchHistories = watchHistoryRepository.findWatchHistoriesByVideo(uuidString);
         if (watchHistories.size() >= 1){
             for (WatchHistory wh:
                     watchHistories) {

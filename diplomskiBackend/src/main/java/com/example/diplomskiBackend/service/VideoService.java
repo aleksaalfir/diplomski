@@ -5,20 +5,21 @@ import com.example.diplomskiBackend.dto.VideoDTO;
 import com.example.diplomskiBackend.entity.Video;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface VideoService {
 
     List<VideoDTO> getAll();
     List<VideoDTO> findVideosByUserIdAndPrivateVideoFalse(Long id);
-    VideoDTO findOne(Long id);
+    VideoDTO findOne(UUID id);
     List<VideoDTO> findAllNonPrivateVideos();
-    void incrementVideoViews(Long id);
-    boolean delete(Long id);
-    VideoDTO update(Long id, VideoDTO videoDTO);
+    void incrementVideoViews(UUID id);
+    boolean delete(UUID id);
+    VideoDTO update(UUID id, VideoDTO videoDTO);
     List<VideoDTO> findVideosByUserId(Long id);
-    Long create(RequestVideoDTO requestVideoDTO);
-    boolean liked(Long id);
-    boolean checkLiked(Long id);
+    UUID create(RequestVideoDTO requestVideoDTO);
+    boolean liked(UUID id);
+    boolean checkLiked(UUID id);
     List<VideoDTO> findVideosByPrivateVideoFalseAndNameContains(String search);
 
 

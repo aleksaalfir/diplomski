@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -56,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.save(report);
     }
 
-    private void deleteReportsWithVideoId(Long videoId){
+    private void deleteReportsWithVideoId(UUID videoId){
         List<Report> reports = reportRepository.findAllByVideoId(videoId);
         for (Report rep:
                 reports) {
@@ -65,7 +66,8 @@ public class ReportServiceImpl implements ReportService {
         }
 
     private void removeVideoFromPlaylists(Video video){
-        List<Playlist> playlists = playlistRepository.findPlaylistsByVideo(video.getId());
+        String uuidString = video.getId().toString();
+        List<Playlist> playlists = playlistRepository.findPlaylistsByVideo(uuidString);
         if(playlists.size() >= 1){
             for (Playlist playlist:
                     playlists) {
@@ -76,7 +78,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private void removeVideoFromWatchHistory(Video video){
-        List<WatchHistory> watchHistories = watchHistoryRepository.findWatchHistoriesByVideo(video.getId());
+        String uuidString = video.getId().toString();
+        List<WatchHistory> watchHistories = watchHistoryRepository.findWatchHistoriesByVideo(uuidString);
         if (watchHistories.size() >= 1){
             for (WatchHistory wh:
                     watchHistories) {

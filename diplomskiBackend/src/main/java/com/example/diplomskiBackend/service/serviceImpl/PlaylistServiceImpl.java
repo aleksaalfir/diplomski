@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PlaylistServiceImpl implements PlaylistService {
@@ -70,7 +71,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public boolean addVideoToPlaylist(Long playlistId, Long videoId) {
+    public boolean addVideoToPlaylist(Long playlistId, UUID videoId) {
         Video video = videoRepository.findById(videoId).orElse(null);
         Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
         for (Video vi:

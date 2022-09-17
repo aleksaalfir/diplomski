@@ -44,7 +44,6 @@ const PrivateVideoPasswordModal = (props) => {
     return (
         <Modal
             isOpen={modalOpen}
-            onRequestClose={modalOpen}
             shouldCloseOnOverlayClick={false}
             style={customStyles}
             ariaHideApp={false}

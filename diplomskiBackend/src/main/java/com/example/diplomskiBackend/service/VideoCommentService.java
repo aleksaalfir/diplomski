@@ -2,7 +2,9 @@ package com.example.diplomskiBackend.service;
 
 import com.example.diplomskiBackend.dto.CommentRequestDTO;
 
+import java.util.UUID;
+
 public interface VideoCommentService {
 
-    Long save(CommentRequestDTO commentRequestDTO);
+    UUID save(CommentRequestDTO commentRequestDTO);
 }

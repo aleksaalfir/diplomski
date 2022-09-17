@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -57,47 +58,47 @@ public class SqlBaseController {
         userRepository.save(user2);
 
 
-        Video video1 = new Video(1L, "Funny dog", user1, false, false, "Funny white puppy.",
+        Video video1 = new Video(UUID.randomUUID(), "Funny dog", user1, false, false, "Funny white puppy.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fwhitedogvideo.mp4?alt=media&token=09267062-8a21-4d71-b8e0-8e50dfa5cc40",
                 0, new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video2 = new Video(2L, "Italy in one minute", user1, false, false, "See Italy in one minute. All his beauty and land.",
+        Video video2 = new Video(UUID.randomUUID(), "Italy in one minute", user1, false, false, "See Italy in one minute. All his beauty and land.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fitalyvideo.mp4?alt=media&token=8ac6b5af-239b-48ba-94db-b9aaee050d05",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video3 = new Video(3L, "Creative video", user1, false, false, "Creative video made for school.",
+        Video video3 = new Video(UUID.randomUUID(), "Creative video", user1, false, false, "Creative video made for school.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fcreativevideo.mp4?alt=media&token=40dacf7f-24ea-4e28-8cac-337dc6bedb5c",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video4 = new Video(4L, "One minute timer", user1, false, true, "Bomb with clock. One minute timer.",
+        Video video4 = new Video(UUID.randomUUID(), "One minute timer", user1, false, true, "Bomb with clock. One minute timer.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbombvideo.mp4?alt=media&token=d87f5b46-2b2a-461e-9e18-1ebbe8e1345e",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video5 = new Video(5L, "Welcome to Miami", user1, true, false, "Miami,Florida,America shown in one minute",
+        Video video5 = new Video(UUID.randomUUID(), "Welcome to Miami", user1, true, false, "Miami,Florida,America shown in one minute",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fmiamivideo.mp4?alt=media&token=7262b571-891a-43a3-817a-0a3bbf9a7511",
                 0,new Date(), new ArrayList<VideoComment>(), "123", null);
 
-        Video video6 = new Video(6L, "iPhone 14 Pro Introduction", user1, false, false, "New Apple iPhone 14 Pro with new features...",
+        Video video6 = new Video(UUID.randomUUID(), "iPhone 14 Pro Introduction", user1, false, false, "New Apple iPhone 14 Pro with new features...",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2FIntroducing%20iPhone%2014%20Pro%20_%20Apple.mp4?alt=media&token=46c8dd86-6486-40e0-b1c9-b9921453e0b0",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video7 = new Video(7L, "Alan Walker - Faded", user2, false, false, "Alan Walker - Faded. Purchase my album on my personal website.",
+        Video video7 = new Video(UUID.randomUUID(), "Alan Walker - Faded", user2, false, false, "Alan Walker - Faded. Purchase my album on my personal website.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbranko%2FAlan%20Walker%20-%20Faded.mp4?alt=media&token=0e16a8ee-3efd-40ed-b910-fb9e9946c5bc",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video8 = new Video(8L, "Chocolate cookies recipe", user2, false, false, "Fast and cheap way to make sweet cookies. Follow for more recipes.",
+        Video video8 = new Video(UUID.randomUUID(), "Chocolate cookies recipe", user2, false, false, "Fast and cheap way to make sweet cookies. Follow for more recipes.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbranko%2FChocolate%20cookies%20recipe.mp4?alt=media&token=c44e8ae1-0f3b-44ad-94d5-8ea0435df3aa",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video9 = new Video(9L, "Life on Earth - BBC Earth", user2, false, false, "Life on Planet Earth was always impressive and full of surprises. Follow us for more videos.",
+        Video video9 = new Video(UUID.randomUUID(), "Life on Earth - BBC Earth", user2, false, false, "Life on Planet Earth was always impressive and full of surprises. Follow us for more videos.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbranko%2FLife%20on%20earth%20%20-%20BBC%20Earth.mp4?alt=media&token=96c2c473-dd4e-4126-a54d-3d348733e948",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video10 = new Video(10L, "STORY - Short movie", user2, false, false, "Short movie. 1 minute movie. VideoTube video.",
+        Video video10 = new Video(UUID.randomUUID(), "STORY - Short movie", user2, false, false, "Short movie. 1 minute movie. VideoTube video.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbranko%2FSTORY%20-%20Short%20movie.mp4?alt=media&token=1bd4bc68-3389-441e-9181-aeddf864b9f5",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
-        Video video11 = new Video(11L, "The Lord of the Rings The Two Towers (2002) Official Trailer #2 - Orlando Bloom Movie HD", user2, false, false, "Most famous trilogy in the world.",
+        Video video11 = new Video(UUID.randomUUID(), "The Lord of the Rings The Two Towers (2002) Official Trailer #2 - Orlando Bloom Movie HD", user2, false, false, "Most famous trilogy in the world.",
                 "https://firebasestorage.googleapis.com/v0/b/diplomski-c2903.appspot.com/o/videos%2Fbranko%2FLordOfTheRingsTwoTowers.mp4?alt=media&token=c30c10bf-e80d-4351-bdce-466af87cb9f9",
                 0,new Date(), new ArrayList<VideoComment>(), "", null);
 
