@@ -65,7 +65,9 @@ public class VideoController {
             boolean admin = userService.checkIfAdmin();
             if(!admin) {
                 boolean liked = videoService.checkLiked(id);
+                boolean disliked = videoService.checkDisliked(id);
                 response.put("liked", liked);
+                response.put("disliked", disliked);
                 watchHistoryService.addToWatcHistory(id);
                 List<PlaylistDTO> playlistDTOS = playlistService.findPlaylistsByUser();
                 response.put("myPlaylists", playlistDTOS);
@@ -107,6 +109,13 @@ public class VideoController {
     public ResponseEntity<Boolean> likeVideo(@PathVariable("id") UUID id){
         boolean liked = videoService.liked(id);
         return new ResponseEntity<>(liked, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/dislike/{id}")
+    public ResponseEntity<Boolean> dislikeVideo(@PathVariable("id") UUID id){
+        boolean disliked = videoService.disliked(id);
+        return new ResponseEntity<>(disliked, HttpStatus.OK);
     }
 
 }

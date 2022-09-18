@@ -38,6 +38,11 @@ const like = (id) => {
       .then(res => res.data)
 }
 
+const dislike = (id) => {
+  return axios.get(baseUrl + "/dislike/" +id)
+      .then(res => res.data)
+}
+
 const videoService = {
   getAll,
   getOne,
@@ -45,7 +50,8 @@ const videoService = {
   deleteVideo,
   update,
   create,
-  like
+  like,
+  dislike
 }
 
 export default videoService;

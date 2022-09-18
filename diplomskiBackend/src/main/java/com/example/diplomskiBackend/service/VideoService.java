@@ -22,5 +22,7 @@ public interface VideoService {
     boolean checkLiked(UUID id);
     List<VideoDTO> findVideosByPrivateVideoFalseAndNameContains(String search);
 
+    boolean disliked(UUID id);
+    boolean checkDisliked(UUID id);
 
 }

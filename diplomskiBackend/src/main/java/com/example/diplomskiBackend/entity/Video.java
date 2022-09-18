@@ -44,7 +44,10 @@ public class Video {
 
     private String fileName;
 
-    public Video(String name, User user, Boolean privateVideo, Boolean ageRestricted, String description, String videoPath, Integer views, Date date, List<VideoComment> videoComments, String privatePassword, String fileName) {
+    @ElementCollection
+    private List<String> dislikes;
+
+    public Video(String name, User user, Boolean privateVideo, Boolean ageRestricted, String description, String videoPath, Integer views, Date date, List<VideoComment> videoComments, String privatePassword, String fileName, List<String> dislikes) {
         this.name = name;
         this.user = user;
         this.privateVideo = privateVideo;
@@ -56,5 +59,6 @@ public class Video {
         this.videoComments = videoComments;
         this.privatePassword = privatePassword;
         this.fileName = fileName;
+        this.dislikes = dislikes;
     }
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEye, faFlag, faPlus, faShare, faThumbsUp, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faEye, faFlag, faPlus, faShare, faThumbsUp, faUser, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "react-bootstrap";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import videoService from "../../services/api/video-service";
@@ -41,7 +41,7 @@ const VideoDetails = () => {
     const {id} = useParams();
     const [video, setVideo] = useState({id: "",
                                                 name: "",
-                                                user: {channelName: "", subscriptionNumber: "", id: ""},
+                                                user: {channelName: "", subscriptionNumber: "", id: "", username: ""},
                                                 privateVideo: false,
                                                 ageRestricted: false,
                                                 description: "",
@@ -49,7 +49,8 @@ const VideoDetails = () => {
                                                 views: 0,
                                                 date: new Date().toISOString(),
                                                 videoComments: [],
-                                                privatePassword: ""});
+                                                privatePassword: "",
+                                                dislikes:[]});
     const [videos, setVideos] = useState([]);
     const [toggleDescription, setToggleDescription] = useState(false);
     const [videoComment, setVideoComment] = useState({videoId: id, comment:""});
@@ -59,15 +60,16 @@ const VideoDetails = () => {
     const [playlistModal, setPlaylistModal] = useState(false);
     const [reportModal, setReportModal] = useState(false);
     const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
     const [privateVideoModalOpen, setPrivateVideoModalOpen] = useState(false);
 
     useEffect(() =>{
         videoService.getOne(id)
             .then(data =>{
+                console.log(data)
             if (data.video.privateVideo === true) setPrivateVideoModalOpen(true);
-            if(data.liked){
-                setLiked(data.liked)
-            }
+            if(data.liked) setLiked(data.liked)
+            if(data.disliked) setDisliked(data.disliked)
             setVideo(data.video);
             setVideos(data.videos);
             setMyPlaylists(data.myPlaylists);
@@ -89,10 +91,49 @@ const VideoDetails = () => {
                 }
             })
         }
+        if(disliked === true){
+            return Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: 'Dislike option need to be removed first!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
       videoService.like(id)
           .then(data=> {
               setLiked(data);
           });
+    }
+
+    const dislike = () => {
+        if(authService.isLoggedIn() === false){
+            return Swal.fire({
+                icon: 'error',
+                title: 'Not logged in',
+                text: 'You need to log in first.',
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+            }).then((result) => {
+                if (result.isConfirmed){
+                    return navigate("/login");
+                }
+            })
+        }
+        if(liked === true){
+            return Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: 'Unlike video first!',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+        videoService.dislike(id)
+            .then(data=> {
+                console.log(data)
+                setDisliked(data);
+            });
     }
 
     function reportModalHandler(){
@@ -246,8 +287,10 @@ const VideoDetails = () => {
                             <span style={{margin: "0 5px"}}>&#183;</span>
                             {moment(video.date).format("L")} </span>
                     </div>
-                    <div style={{width:'30%', fontSize: "2rem"}} className="justify-content-end align-items-end d-flex">
+                    <div style={{width:'30%', fontSize: "2rem"}} className="justify-content-end align-items-center d-flex">
                         <FontAwesomeIcon className={liked ? [styles.iconLiked, "me-2"].join(" ") : [styles.icon, "me-2"].join(" ")} onClick={like} icon={faThumbsUp} />
+                        <FontAwesomeIcon className={disliked ? [styles.iconLiked, "me-2"].join(" ") : [styles.icon, "me-2"].join(" ")} onClick={dislike} icon={faThumbsDown} />
+                        {authService.getUsernameFromJwt() === video.user.username ? <div className={[styles.icon, "me-2"].join(" ")}>{video.dislikes.length}</div> : null}
                         <FontAwesomeIcon onClick={playlistModalHandler} className={[styles.icon, "me-2"].join(" ")} icon={faPlus} />
                         <FontAwesomeIcon onClick={reportModalHandler} className={[styles.icon, "me-2"].join(" ")} icon={faFlag} />
                         <FontAwesomeIcon onClick={copyCurrentUrlHandler} className={styles.icon} icon={faShare} />

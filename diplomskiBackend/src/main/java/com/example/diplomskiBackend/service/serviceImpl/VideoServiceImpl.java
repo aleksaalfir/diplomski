@@ -112,7 +112,8 @@ public class VideoServiceImpl implements VideoService {
                 new Date(),
                 new ArrayList<>(),
                 requestVideoDTO.getPrivatePassword(),
-                requestVideoDTO.getFileName());
+                requestVideoDTO.getFileName(),
+                new ArrayList<>());
 
         UUID id = videoRepository.save(video).getId();
 
@@ -152,10 +153,41 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public boolean disliked(UUID id) {
+        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        User user = userRepository.findUserByUsername(username);
+        Video video = videoRepository.findById(id).orElse(null);
+        for (String disliked:
+                video.getDislikes()) {
+            if(disliked.equals(username)){
+                video.getDislikes().remove(disliked);
+                videoRepository.save(video);
+                return false;
+            }
+        }
+        video.getDislikes().add(username);
+        videoRepository.save(video);
+        return true;
+    }
+
+    @Override
+    public boolean checkDisliked(UUID id) {
+        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        User user = userRepository.findUserByUsername(username);
+        Video video = videoRepository.findById(id).orElse(null);
+        for (String disliked:
+                video.getDislikes()) {
+            if(disliked.equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public List<VideoDTO> findVideosByPrivateVideoFalseAndNameContains(String search) {
         return VideoMapper.mapListDTO(videoRepository.findVideosByPrivateVideoFalseAndNameContaining(search));
     }
-
 
     private void removeVideoFromPlaylists(Video video){
         String uuidString = video.getId().toString();

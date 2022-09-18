@@ -43,6 +43,7 @@ public class VideoMapper {
                 .privatePassword(video.getPrivatePassword())
                 .fileName(video.getFileName())
                 .videoComments(videoCommentDTOS)
+                .dislikes(video.getDislikes())
                 .build();
     }
 

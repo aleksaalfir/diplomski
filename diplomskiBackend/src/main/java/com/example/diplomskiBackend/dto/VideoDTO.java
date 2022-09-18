@@ -36,6 +36,7 @@ public class VideoDTO {
     private String privatePassword;
 
     private String fileName;
+    List<String> dislikes;
 
     public VideoDTO(String name, Boolean privateVideo, Boolean ageRestricted, String description, String privatePassword, String fileName) {
         this.name = name;
